@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # coding: UTF-8
 # author: Orange Tsai(@orange_8361)
-#
 
 import sys
 import requests
